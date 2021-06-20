@@ -59,12 +59,13 @@ export function FilterBox({ filterId, title, items }) {
               {list.map((item, idx) => (
                 <li key={idx}>
                   <button
-                    onClick={() => {
+                    onClick={async () => {
                       actions.setFilter({
                         filterBy: filterId,
                         filterByValue: item.key,
                       });
-                      actions.callJobsApi();
+                      await actions.callJobsApi();
+                      actions.setSort();
                     }}
                     type="button"
                     className="text-left focus:outline-none"

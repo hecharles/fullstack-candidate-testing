@@ -5,9 +5,10 @@ import { useJobsStore } from "../stores";
 export function SearchBox() {
   const [state, actions] = useJobsStore();
 
-  const searchOnSubmit = function (event) {
+  const searchOnSubmit = async function (event) {
     event.preventDefault();
-    actions.callJobsApi();
+    await actions.callJobsApi();
+    actions.setSort();
   };
   return (
     <div className="bg-white shadow p-4 m-4">

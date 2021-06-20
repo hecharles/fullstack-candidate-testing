@@ -1,6 +1,7 @@
 import { createStore, createHook } from "react-sweet-state";
 import { baseUrl } from "../config";
 import { searchJobs } from "../utils";
+import { sort } from "fast-sort";
 
 const Store = createStore({
   // value of the store on initialisation
@@ -31,18 +32,83 @@ const Store = createStore({
     setSort:
       (sortBy) =>
       ({ setState, getState }) => {
-        const newState = {};
+        if (sortBy) {
+          const newState = {};
 
-        newState[sortBy] = "asc";
+          newState[sortBy] = "asc";
 
-        if (getState()[sortBy] === "asc") {
-          newState[sortBy] = "desc";
+          if (getState()[sortBy] === "asc") {
+            newState[sortBy] = "desc";
+          }
+          if (getState()[sortBy] === "desc") {
+            newState[sortBy] = null;
+          }
+          setState(newState);
         }
-        if (getState()[sortBy] === "desc") {
-          newState[sortBy] = null;
+
+        const {
+          resultData,
+          sortByLocation,
+          sortByRole,
+          sortByDepartment,
+          sortByEducation,
+          sortByExperience,
+        } = getState();
+        const sortParams = [];
+
+        if (sortByLocation) {
+          if (sortByLocation === "asc") {
+            sortParams.push({ asc: (u) => u.location });
+          } else if (sortByLocation === "desc") {
+            sortParams.push({ desc: (u) => u.location });
+          } else {
+            sortParams.push({ asc: (u) => u.location });
+          }
         }
 
-        setState(newState);
+        if (sortByRole) {
+          if (sortByRole === "asc") {
+            sortParams.push({ asc: (u) => u.role });
+          } else if (sortByRole === "desc") {
+            sortParams.push({ desc: (u) => u.role });
+          } else {
+            sortParams.push({ asc: (u) => u.role });
+          }
+        }
+
+        if (sortByDepartment) {
+          if (sortByDepartment === "asc") {
+            sortParams.push({ asc: (u) => u.department });
+          } else if (sortByDepartment === "desc") {
+            sortParams.push({ desc: (u) => u.department });
+          } else {
+            sortParams.push({ asc: (u) => u.department });
+          }
+        }
+
+        if (sortByEducation) {
+          if (sortByEducation === "asc") {
+            sortParams.push({ asc: (u) => u.education });
+          } else if (sortByEducation === "desc") {
+            sortParams.push({ desc: (u) => u.education });
+          } else {
+            sortParams.push({ asc: (u) => u.education });
+          }
+        }
+
+        if (sortByExperience) {
+          if (sortByExperience === "asc") {
+            sortParams.push({ asc: (u) => u.experience });
+          } else if (sortByExperience === "desc") {
+            sortParams.push({ desc: (u) => u.experience });
+          } else {
+            sortParams.push({ asc: (u) => u.experience });
+          }
+        }
+
+        const sortedResultData = sort(resultData).by(sortParams);
+
+        setState({ resultData: sortedResultData });
       },
     setFilter:
       ({ filterBy, filterByValue }) =>
@@ -93,32 +159,26 @@ const Store = createStore({
           filterSearch.push(`filterByValue=${filterByValue}`);
         }
 
+        let resultData = getState().allData;
         try {
           const resFilters = await fetch(
             `${baseUrl}/api/jobs?${filterSearch.join("&")}`
           );
-          const data = await resFilters.json();
-
-          setState({
-            resultData: data,
-          });
+          resultData = await resFilters.json();
         } catch (err) {
           // if connection offline
           console.log(err);
-          const jobsResult = searchJobs({
+          resultData = searchJobs({
             allJobs: getState().allData,
             search,
             filterBy,
             filterByValue,
           });
         }
+
         setState({
+          resultData: resultData,
           loading: false,
-          sortByLocation: null,
-          sortByRole: null,
-          sortByDepartment: null,
-          sortByEducation: null,
-          sortByExperience: null,
         });
       },
   },

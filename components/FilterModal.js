@@ -51,12 +51,14 @@ export function FilterModal({ filterId, title, data, hideModal }) {
                   {data.map((item, idx) => (
                     <div key={idx}>
                       <button
-                        onClick={() => {
+                        onClick={async () => {
                           actions.setFilter({
                             filterBy: filterId,
                             filterByValue: item.key,
                           });
-                          actions.callJobsApi();
+
+                          await actions.callJobsApi();
+                          actions.setSort();
                           hideModal();
                         }}
                         type="button"
