@@ -9,17 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "jest",
-    "test-coverage": "jest --coverage"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "collectCoverageFrom": [
-      "<rootDir>/pages/api/*"
-    ]
+    "test": "jest --watch"
   },
   "dependencies": {
     "@headlessui/react": "^1.2.0",
@@ -30,13 +20,15 @@
     "memory-cache": "^0.2.0",
     "moment": "^2.29.1",
     "next": "11.0.0",
+    "node-mocks-http": "^1.10.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-sweet-state": "^2.5.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
-    "eslint": "7.28.0",
+    "babel-jest": "^27.0.2",
+    "eslint": "7.29.0",
     "eslint-config-next": "11.0.0",
     "jest": "^27.0.4",
     "postcss": "^8.3.5",
