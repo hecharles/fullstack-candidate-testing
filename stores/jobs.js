@@ -146,7 +146,7 @@ const Store = createStore({
         const filterSearch = [];
 
         if (search && search.trim().length > 0) {
-          filterSearch.push(`search=${search}`);
+          filterSearch.push(`search=${encodeURIComponent(search)}`);
         }
 
         if (
@@ -155,8 +155,10 @@ const Store = createStore({
           filterByValue &&
           filterByValue.trim().length > 0
         ) {
-          filterSearch.push(`filterBy=${filterBy}`);
-          filterSearch.push(`filterByValue=${filterByValue}`);
+          filterSearch.push(`filterBy=${encodeURIComponent(filterBy)}`);
+          filterSearch.push(
+            `filterByValue=${encodeURIComponent(filterByValue)}`
+          );
         }
 
         let resultData = getState().allData;
