@@ -68,11 +68,11 @@ const Store = createStore({
 
         if (sortByRole) {
           if (sortByRole === "asc") {
-            sortParams.push({ asc: (u) => u.role });
+            sortParams.push({ asc: (u) => u.job_title });
           } else if (sortByRole === "desc") {
-            sortParams.push({ desc: (u) => u.role });
+            sortParams.push({ desc: (u) => u.job_title });
           } else {
-            sortParams.push({ asc: (u) => u.role });
+            sortParams.push({ asc: (u) => u.job_title });
           }
         }
 
@@ -88,11 +88,11 @@ const Store = createStore({
 
         if (sortByEducation) {
           if (sortByEducation === "asc") {
-            sortParams.push({ asc: (u) => u.education });
+            sortParams.push({ asc: (u) => u.required_credentials });
           } else if (sortByEducation === "desc") {
-            sortParams.push({ desc: (u) => u.education });
+            sortParams.push({ desc: (u) => u.required_credentials });
           } else {
-            sortParams.push({ asc: (u) => u.education });
+            sortParams.push({ asc: (u) => u.required_credentials });
           }
         }
 
